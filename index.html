@@ -561,16 +561,33 @@
     }, { threshold: 0.1 });
     fadeEls.forEach(el => observer.observe(el));
 
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzmC3JkMroNY70nSQq1bDmJ4HqCoMwovQTCey4yCRD-9mKsLRvcmp_V6xtDOlXvhreS/exec';
+
+    function submitToSheet(email, onSuccess) {
+      fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'email=' + encodeURIComponent(email)
+      }).then(() => onSuccess()).catch(() => onSuccess());
+    }
+
     document.getElementById('waitlistForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      this.style.display = 'none';
-      document.querySelector('.form-note').style.display = 'none';
-      document.getElementById('successMsg').style.display = 'block';
+      const email = document.getElementById('emailInput').value;
+      submitToSheet(email, () => {
+        this.style.display = 'none';
+        document.querySelector('.form-note').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+      });
     });
 
     document.getElementById('waitlistForm2').addEventListener('submit', function(e) {
       e.preventDefault();
-      this.innerHTML = '<p style="font-family:var(--serif);font-style:italic;color:var(--berry);font-size:1.2rem">✦ você está na lista — até breve 🌿</p>';
+      const email = this.querySelector('input[type="email"]').value;
+      submitToSheet(email, () => {
+        this.innerHTML = '<p style="font-family:var(--serif);font-style:italic;color:var(--cherry);font-size:1.2rem">✦ você está na lista — até breve 🪷</p>';
+      });
     });
   </script>
 </body>
