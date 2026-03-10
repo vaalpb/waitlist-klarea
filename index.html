@@ -575,6 +575,11 @@
     document.getElementById('waitlistForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const email = document.getElementById('emailInput').value;
+      const btn = this.querySelector('button');
+      const input = this.querySelector('input');
+      btn.textContent = '...';
+      btn.disabled = true;
+      input.disabled = true;
       submitToSheet(email, () => {
         this.style.display = 'none';
         document.querySelector('.form-note').style.display = 'none';
@@ -585,8 +590,13 @@
     document.getElementById('waitlistForm2').addEventListener('submit', function(e) {
       e.preventDefault();
       const email = this.querySelector('input[type="email"]').value;
+      const btn = this.querySelector('button');
+      const input = this.querySelector('input');
+      btn.textContent = '...';
+      btn.disabled = true;
+      input.disabled = true;
       submitToSheet(email, () => {
-        this.innerHTML = '<p style="font-family:var(--serif);font-style:italic;color:var(--cherry);font-size:1.2rem">✦ você está na lista — até breve 🪷</p>';
+        this.innerHTML = '<p style="font-family:var(--heading);font-style:italic;color:var(--cherry);font-size:1.2rem">✦ você está na lista — até breve 🪷</p>';
       });
     });
   </script>
