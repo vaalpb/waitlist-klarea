@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Klarea — escreva para clarear</title>
+  <meta property="og:image" content="https://bolt.new/static/og_default.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --off-white: #F7F6F3;
+      --lavanda: #CBB6E6;
+      --blue-sky: #7FB7E8;
+      --verde-aurora: #8FD3C1;
+      --cherry: #A84D6D;
+      --text: #2C2A27;
+      --text-light: #7A7570;
+      --heading: 'Playfair Display', serif;
+      --body: 'Source Sans Pro', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--off-white);
+      color: var(--text);
+      font-family: var(--body);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    .aurora-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .aurora-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+    .aurora-blob:nth-child(1) {
+      width: 600px; height: 400px;
+      background: var(--lavanda);
+      top: -100px; left: -100px;
+      animation-duration: 20s;
+    }
+    .aurora-blob:nth-child(2) {
+      width: 500px; height: 500px;
+      background: var(--blue-sky);
+      top: 30%; right: -150px;
+      animation-duration: 25s;
+      animation-delay: -8s;
+    }
+    .aurora-blob:nth-child(3) {
+      width: 400px; height: 350px;
+      background: var(--verde-aurora);
+      bottom: 10%; left: 20%;
+      animation-duration: 22s;
+      animation-delay: -4s;
+    }
+    @keyframes drift {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.08); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    nav {
+      position: relative;
+      z-index: 10;
+      padding: 32px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .logo {
+      font-family: var(--heading);
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--cherry); }
+    nav a.nav-link {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+      font-family: var(--body);
+    }
+    nav a.nav-link:hover { color: var(--cherry); }
+
+    .hero {
+      padding: 80px 0 100px;
+      text-align: center;
+      animation: fadeUp 1s ease both;
+    }
+    .hero-eyebrow {
+      font-family: var(--body);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cherry);
+      margin-bottom: 28px;
+      opacity: 0.85;
+      font-weight: 600;
+    }
+    .hero h1 {
+      font-family: var(--heading);
+      font-size: clamp(3.5rem, 9vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--cherry);
+      font-weight: 700;
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      line-height: 1.8;
+      max-width: 500px;
+      margin: 0 auto 48px;
+      font-weight: 300;
+      font-family: var(--body);
+    }
+
+    .waitlist-form {
+      display: flex;
+      gap: 12px;
+      max-width: 460px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .waitlist-form input {
+      flex: 1;
+      min-width: 220px;
+      padding: 14px 20px;
+      border: 1.5px solid rgba(168, 77, 109, 0.2);
+      border-radius: 40px;
+      background: rgba(247, 246, 243, 0.8);
+      backdrop-filter: blur(8px);
+      font-family: var(--body);
+      font-size: 0.9rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .waitlist-form input::placeholder { color: var(--text-light); }
+    .waitlist-form input:focus { border-color: var(--cherry); }
+    .btn-primary {
+      padding: 14px 32px;
+      background: var(--cherry);
+      color: white;
+      border: none;
+      border-radius: 40px;
+      font-family: var(--body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+    .form-note {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-top: 14px;
+      letter-spacing: 0.02em;
+      font-family: var(--body);
+    }
+    .success-msg {
+      display: none;
+      text-align: center;
+      font-family: var(--heading);
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--cherry);
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    .divider {
+      width: 48px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cherry), transparent);
+      margin: 80px auto;
+      opacity: 0.4;
+    }
+
+    .problem {
+      padding: 0 0 20px;
+      animation: fadeUp 1s ease 0.3s both;
+    }
+    .problem-text {
+      font-family: var(--heading);
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 500;
+      line-height: 1.7;
+      color: var(--text);
+      text-align: center;
+    }
+    .problem-text em {
+      font-style: italic;
+      color: var(--cherry);
+      font-weight: 600;
+    }
+
+    .features {
+      padding: 20px 0;
+    }
+    .features-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cherry);
+      text-align: center;
+      margin-bottom: 48px;
+      opacity: 0.8;
+      font-family: var(--body);
+      font-weight: 600;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 540px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(203, 182, 230, 0.25);
+      border-radius: 20px;
+      padding: 36px 32px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(168, 77, 109, 0.1);
+    }
+    .feature-icon {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .feature-card h3 {
+      font-family: var(--heading);
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      font-family: var(--body);
+    }
+
+    .manifesto {
+      padding: 20px 0;
+      text-align: center;
+    }
+    .manifesto-inner {
+      background: linear-gradient(135deg, rgba(203,182,230,0.12), rgba(127,183,232,0.1), rgba(143,211,193,0.1));
+      border: 1px solid rgba(203, 182, 230, 0.2);
+      border-radius: 28px;
+      padding: 64px 52px;
+    }
+    @media (max-width: 540px) {
+      .manifesto-inner { padding: 44px 32px; }
+    }
+    .manifesto blockquote {
+      font-family: var(--heading);
+      font-size: clamp(1.2rem, 2.8vw, 1.5rem);
+      font-weight: 500;
+      line-height: 1.8;
+      color: var(--text);
+      font-style: italic;
+    }
+    .manifesto blockquote strong {
+      font-style: normal;
+      font-weight: 700;
+      color: var(--cherry);
+    }
+    .manifesto-sig {
+      margin-top: 32px;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      font-family: var(--body);
+      font-weight: 600;
+    }
+
+    .how {
+      padding: 20px 0;
+    }
+    .how-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cherry);
+      text-align: center;
+      margin-bottom: 48px;
+      opacity: 0.8;
+      font-family: var(--body);
+      font-weight: 600;
+    }
+    .how-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .how-step {
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+      padding: 32px 0;
+      border-bottom: 1px solid rgba(168, 77, 109, 0.08);
+    }
+    .how-step:last-child { border-bottom: none; }
+    .step-num {
+      font-family: var(--heading);
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: var(--cherry);
+      opacity: 0.25;
+      min-width: 50px;
+      line-height: 1;
+      padding-top: 4px;
+    }
+    .step-content h3 {
+      font-family: var(--heading);
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+    .step-content p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      font-family: var(--body);
+    }
+
+    .final-cta {
+      padding: 80px 0 120px;
+      text-align: center;
+    }
+    .final-cta h2 {
+      font-family: var(--heading);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .final-cta h2 em {
+      font-style: italic;
+      color: var(--cherry);
+      font-weight: 700;
+    }
+    .final-cta p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+      font-family: var(--body);
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 32px 24px 48px;
+      font-size: 0.78rem;
+      color: var(--text-light);
+      letter-spacing: 0.05em;
+      font-family: var(--body);
+    }
+    footer span { color: var(--cherry); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="aurora-bg">
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+  </div>
+
+  <nav>
+    <a href="#" class="logo">kl<span>a</span>rea</a>
+    <a href="#lista" class="nav-link">entrar na lista</a>
+  </nav>
+
+  <div class="container">
+    <section class="hero">
+      <p class="hero-eyebrow">em breve</p>
+      <h1>escreva para<br><em>clarear</em></h1>
+      <p class="hero-sub">Um espaço de escrita e leitura criado para mulheres tentando descobrir como viver a vida adulta — sem pressa, sem performance.</p>
+
+      <div id="lista">
+        <form class="waitlist-form" id="waitlistForm">
+          <input type="email" placeholder="seu melhor email" required id="emailInput" />
+          <button type="submit" class="btn-primary">quero entrar</button>
+        </form>
+        <p class="form-note">sem spam, espaço somente para o que importa.</p>
+        <p class="success-msg" id="successMsg">✦ você está na lista — até breve 🪷</p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="problem fade-in">
+      <p class="problem-text">
+        Em algum momento, a vida adulta chega<br>
+        e ninguém avisou que seria assim.<br><br>
+        Trabalho, relações, identidade, medo, coragem.<br>
+        E quase sempre <em>tentamos entender tudo em silêncio.</em>
+      </p>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="features fade-in">
+      <p class="features-label">o que é o klarea</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">✦</span>
+          <h3>escreva sem performar</h3>
+          <p>Um lugar pensado para o pensamento em formação, com foco em escritas curtas ou longas.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">◎</span>
+          <h3>leia com atenção</h3>
+          <p>Textos profundos de mulheres reais. Modo leitura que remove tudo o que não é a palavra.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">◐</span>
+          <h3>círculos de escrita</h3>
+          <p>Comunidades em torno de temas que importam — vida adulta, autoconhecimento, criatividade, pautas sociais.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">◇</span>
+          <h3>pergunta do dia</h3>
+          <p>Uma pergunta reflexiva todo dia para criar o hábito de escrever. Pequenas âncoras para o pensamento.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="manifesto fade-in">
+      <div class="manifesto-inner">
+        <blockquote>
+          A vida adulta não vem com manual.<br><br>
+          Em algum momento a gente percebe que está tentando entender muitas coisas ao mesmo tempo — e quase sempre faz isso em silêncio.<br><br>
+          O klarea nasce de uma ideia simples:<br>
+          <strong>às vezes, escrever ajuda a clarear.</strong><br><br>
+          Aqui, escrever não precisa ser perfeito.<br>
+          Não precisa ser rápido.<br>
+          Não precisa performar.<br><br>
+          Pode ser apenas honesto.
+        </blockquote>
+        <p class="manifesto-sig">— manifesto klarea</p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="how fade-in">
+      <p class="how-label">como funciona</p>
+      <div class="how-steps">
+        <div class="how-step">
+          <span class="step-num">01</span>
+          <div class="step-content">
+            <h3>receba a pergunta do dia</h3>
+            <p>Todo dia, uma pergunta para te tirar do automático. Escreva sobre ela — ou explore o que outras escreveram.</p>
+          </div>
+        </div>
+        <div class="how-step">
+          <span class="step-num">02</span>
+          <div class="step-content">
+            <h3>escreva no seu ritmo</h3>
+            <p>Editor limpo, sem distrações. Publique para quem quiser — ou guarde só para você no diário privado.</p>
+          </div>
+        </div>
+        <div class="how-step">
+          <span class="step-num">03</span>
+          <div class="step-content">
+            <h3>encontre outras vozes</h3>
+            <p>Descubra autoras brasileiras. Destaque trechos que te tocam. Entre em círculos com quem pensa parecido com você.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="final-cta fade-in">
+      <h2>pronta para<br><em>clarear?</em></h2>
+      <p>Entre na lista de espera e seja uma das primeiras a acessar.</p>
+      <form class="waitlist-form" id="waitlistForm2">
+        <input type="email" placeholder="seu melhor email" required />
+        <button type="submit" class="btn-primary">quero entrar</button>
+      </form>
+      <p class="form-note">sem spam, espaço somente para o que importa.</p>
+    </section>
+  </div>
+
+  <footer>
+    <p>klarea © 2026 — feito com <span>♥</span> por uma adulta perdida buscando encontrar o seu caminho.</p>
+  </footer>
+
+  <script>
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => observer.observe(el));
+
+    document.getElementById('waitlistForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      this.style.display = 'none';
+      document.querySelector('.form-note').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+    });
+
+    document.getElementById('waitlistForm2').addEventListener('submit', function(e) {
+      e.preventDefault();
+      this.innerHTML = '<p style="font-family:var(--serif);font-style:italic;color:var(--berry);font-size:1.2rem">✦ você está na lista — até breve 🌿</p>';
+    });
+  </script>
+</body>
+</html>
